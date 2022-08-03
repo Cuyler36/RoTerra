@@ -8,3 +8,6 @@
 # Roblox place files
 /*.rbxl
 /*.rbxlx
+
+# Local API Key file
+/api_key.txt
