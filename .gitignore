@@ -4,3 +4,7 @@
 # Roblox Studio lock files
 /*.rbxlx.lock
 /*.rbxl.lock
+
+# Roblox place files
+/*.rbxl
+/*.rbxlx
