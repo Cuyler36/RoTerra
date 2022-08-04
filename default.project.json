@@ -6,6 +6,9 @@
     "ReplicatedStorage": {
       "Common": {
         "$path": "src/shared"
+      },
+      "CommonAssets": {
+        "$path": "assets/shared"
       }
     },
 
@@ -16,6 +19,10 @@
     },
 
     "StarterPlayer": {
+      "$path": "assets/StarterPlayer",
+      "StarterCharacterScripts": {
+
+      },
       "StarterPlayerScripts": {
         "Client": {
           "$path": "src/client"
@@ -23,33 +30,30 @@
       }
     },
 
-    "Workspace": {
-      "$properties": {
-        "FilteringEnabled": true
-      },
-      "Baseplate": {
-        "$className": "Part",
-        "$properties": {
-          "Anchored": true,
-          "Color": [
-            0.38823,
-            0.37254,
-            0.38823
-          ],
-          "Locked": true,
-          "Position": [
-            0,
-            -10,
-            0
-          ],
-          "Size": [
-            512,
-            20,
-            512
-          ]
-        }
+    "ServerStorage": {
+      "ServerAssets": {
+        "$path": "assets/server"
       }
     },
+
+    "ReplicatedFirst": {
+      "ClientInit": {
+        "$path": "src/init"
+      },
+      "InitAssets": {
+        "$path": "assets/init"
+      }
+    },
+
+    "Workspace": {
+      "Game": {
+        "$path": "assets/workspace"
+      },
+      "$properties": {
+        "FilteringEnabled": true
+      }
+    },
+
     "Lighting": {
       "$properties": {
         "Ambient": [
@@ -63,6 +67,13 @@
         "Technology": "Voxel"
       }
     },
+
+    "MaterialService": {
+      "$properties": {
+        "Use2022Materials": true
+      }
+    },
+
     "SoundService": {
       "$properties": {
         "RespectFilteringEnabled": true
