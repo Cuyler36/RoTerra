@@ -16,12 +16,11 @@ local moveLeft: number = 0
 local moveRight: number = 0
 local jump: boolean = false
 local jumpDown: boolean = false
-local MoveVectorState: Vector3 = Vector3.new()
 
 local function HandleControlsInputLeft(
-	action: string,
+	_: string,
 	inputState: Enum.UserInputState,
-	inputObject: InputObject
+	_: InputObject
 ): Enum.ContextActionResult
 	if inputState == Enum.UserInputState.Begin then
 		moveLeft = -1
@@ -33,9 +32,9 @@ local function HandleControlsInputLeft(
 end
 
 local function HandleControlsInputRight(
-	action: string,
+	_: string,
 	inputState: Enum.UserInputState,
-	inputObject: InputObject
+	_: InputObject
 ): Enum.ContextActionResult
 	if inputState == Enum.UserInputState.Begin then
 		moveRight = 1
@@ -47,9 +46,9 @@ local function HandleControlsInputRight(
 end
 
 local function HandleControlsJumpRequest(
-	action: string,
+	_: string,
 	inputState: Enum.UserInputState,
-	inputObject: InputObject
+	_: InputObject
 ): Enum.ContextActionResult
 	if inputState == Enum.UserInputState.Begin then
 		jump = true
@@ -65,7 +64,7 @@ Input:Bind("MoveRight", HandleControlsInputRight, Enum.KeyCode.D, Enum.UserInput
 Input:Bind("Jump", HandleControlsJumpRequest, Enum.KeyCode.Space, Enum.KeyCode.ButtonA)
 
 local lastMovementDirection: number = 0
-local function OnRenderStepped(dt: number): ()
+local function OnRenderStepped(_: number): ()
 	local character = Character:GetCharacter()
 	if character and character.PrimaryPart then
 		local movementDirection: number = moveLeft + moveRight
@@ -87,11 +86,15 @@ local function OnRenderStepped(dt: number): ()
 			humanoid.Jump = true
 		end
 	end
+
+	if jumpDown then
+		jumpDown = false -- TODO: should we allow auto-jumps?
+	end
 end
 
 RunService:BindToRenderStep("Movement", Enum.RenderPriority.First.Value, OnRenderStepped)
 
-local function OnRespawn(character: Model, humanoid: Humanoid): ()
+local function OnRespawn(_: Model, humanoid: Humanoid): ()
 	humanoid:SetStateEnabled(Enum.HumanoidStateType.Climbing, false) -- Disable climbing
 
 	BlockSelector:Enable()
@@ -109,7 +112,7 @@ Character:OnDeath("ControlsOnDeath", OnDeath)
 local function HandleMouseClickInput(
 	action: string,
 	inputState: Enum.UserInputState,
-	inputObject: InputObject
+	_: InputObject
 ): Enum.ContextActionResult
 	if action == "ClickBlock" and inputState == Enum.UserInputState.Begin then
 		local block: BasePart? = BlockSelector:GetSelectedBlock()
