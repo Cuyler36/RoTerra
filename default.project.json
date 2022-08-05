@@ -19,6 +19,9 @@
     },
 
     "StarterPlayer": {
+      "$properties": {
+        "DevComputerMovementMode": "Scriptable"
+      },
       "$path": "assets/StarterPlayer",
       "StarterCharacterScripts": {
 

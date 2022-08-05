@@ -4,12 +4,14 @@ local Keybinds = {}
 Keybinds.__index = Keybinds
 Keybinds.ClassName = "Keybinds"
 
+local keybinds = {} -- mock
+
 function Keybinds:GetBoundKeyboardInput(action: string): KeybindInput?
-	return action -- Mock
+	return keybinds[action] -- Mock
 end
 
 function Keybinds:GetBoundControllerInput(action: string): KeybindInput?
-	return action
+	return keybinds[action]
 end
 
 function Keybinds:SetBoundKeyboardInput(action: string, input: KeybindInput): ()
