@@ -21,6 +21,8 @@ jobs:
         version: "^1.0.0"
         token: ${{ SECRETS.GITHUB_TOKEN }}
 
+    - run: wally install
+
     - run: rojo build -o game.rbxl
 
     - run: rbxcloud experience publish -f game.rbxl -p 10468122561 -u 3812642876 -t published -a ${{ SECRETS.API_KEY }}

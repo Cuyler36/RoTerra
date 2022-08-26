@@ -9,6 +9,9 @@
       },
       "CommonAssets": {
         "$path": "assets/shared"
+      },
+      "Packages": {
+        "$path": "Packages"
       }
     },
 
@@ -50,7 +53,10 @@
 
     "Workspace": {
       "Game": {
-        "World": {},
+        "$className": "Folder",
+        "World": {
+          "$className": "Folder"
+        },
         "$path": "assets/workspace"
       },
       "$properties": {

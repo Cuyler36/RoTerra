@@ -11,3 +11,6 @@
 
 # Local API Key file
 /api_key.txt
+
+# Local packages
+/Packages/

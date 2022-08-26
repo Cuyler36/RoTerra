@@ -1,0 +1,10 @@
+[package]
+name = "whs/roterra"
+version = "0.1.0"
+registry = "https://github.com/UpliftGames/wally-index"
+realm = "shared"
+
+[dependencies]
+roact-rodux = "roblox/roact-rodux@0.3.0"
+janitor = "howmanysmall/janitor@1.14.1"
+cmdr = "evaera/cmdr@1.9.0"

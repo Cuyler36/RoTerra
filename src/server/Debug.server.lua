@@ -1,6 +1,6 @@
 task.defer(workspace.Game.BlockFabTest.Destroy, workspace.Game.BlockFabTest)
 
-local Block = require(script.Parent.World.Block)
+--local Block = require(script.Parent.World.Block)
 --[[
 local BlockGroup = require(script.Parent.World.BlockGroup)
 
