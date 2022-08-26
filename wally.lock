@@ -30,4 +30,4 @@ dependencies = []
 [[package]]
 name = "whs/roterra"
 version = "0.1.0"
-dependencies = [["cmdr", "evaera/cmdr@1.9.0"], ["janitor", "howmanysmall/janitor@1.14.1"], ["roact-rodux", "roblox/roact-rodux@0.3.0"]]
+dependencies = [["cmdr", "evaera/cmdr@1.9.0"], ["janitor", "howmanysmall/janitor@1.14.1"], ["roact", "roblox/roact@1.4.4"], ["roact-rodux", "roblox/roact-rodux@0.3.0"], ["rodux", "roblox/rodux@3.0.0"]]

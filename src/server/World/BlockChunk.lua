@@ -45,6 +45,7 @@ function BlockChunk:ReplaceBlock(x: number, y: number, block_type: number): bool
 				block.Anchored = true
 				block.Material = BlockData[block_type].Material
 				block.Color = BlockData[block_type].Color
+				block.Name = string.format("Block_%d", idx)
 				block.Parent = self._folder
 				self._blockParts[idx] = block
 			else
@@ -119,6 +120,7 @@ function BlockChunk:RebuildMeshParts(): ()
 			block.CFrame = CFrame.new(WorldGrid:To3DSpace(self._start + Vector2.new(x, y)))
 			block.Material = BlockData[self._blocks[i]].Material
 			block.Color = BlockData[self._blocks[i]].Color
+			block.Name = string.format("Block_%d", i - 1)
 			block.Parent = new_folder
 
 			blocks[i] = block

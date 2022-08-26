@@ -5,6 +5,8 @@ registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"
 
 [dependencies]
+roact = "roblox/roact@1.4.4"
+rodux = "roblox/rodux@3.0.0"
 roact-rodux = "roblox/roact-rodux@0.3.0"
 janitor = "howmanysmall/janitor@1.14.1"
 cmdr = "evaera/cmdr@1.9.0"
