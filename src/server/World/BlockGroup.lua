@@ -1,5 +1,5 @@
 local Block = require(script.Parent.Block)
-local WorldGrid = require(script.Parent.WorldGrid)
+local WorldGrid = require(game:GetService("ReplicatedStorage").Common.World.WorldGrid)
 
 local BlockGroup = {}
 BlockGroup.__index = BlockGroup
@@ -28,12 +28,13 @@ end
 
 function BlockGroup:BuildLayout2D(blocks: { Block.Block_t }): ()
 	--self:DEBUG_DrawBlocksRaw(blocks)
-
+	-- TODO: This function is not optimal. It should be revised to pick the more optimial dimension (right now it will always choose Y)
 	local list2d: { [number]: { [number]: boolean } } = { Count = 0 } -- [y][x]
 	local rectangles: { BlockRect_t } = {}
 	local bottomleft: Vector2 = Vector2.new(99999, 99999)
 	local groupStartPos: Vector2 = Vector2.zero
 	local top: number = -99999
+	local right: number = -99999
 
 	-- Construct list
 	for _, block in ipairs(blocks) do
@@ -60,11 +61,17 @@ function BlockGroup:BuildLayout2D(blocks: { Block.Block_t }): ()
 			bottomleft = Vector2.new(block.Position.X, bottomleft.Y)
 		end
 
+		if block.Position.X > right then
+			right = block.Position.X
+		end
+
 		if block.Position.Y > top then
 			top = block.Position.Y
 		end
 	end
 
+	self._bottomLeft = bottomleft
+	self._topRight = Vector2.new(right, top)
 	groupStartPos = bottomleft
 	-- Construct rectangles
 	while list2d.Count > 0 do
@@ -265,15 +272,42 @@ function BlockGroup:BuildMesh(): ()
 	end
 end
 
+function BlockGroup:GetSize(): Vector2
+	return self._topRight - self._bottomLeft -- Rectangular size
+end
+
+function BlockGroup:HasBlock(x: number, y: number): boolean
+	if x >= self._bottomLeft.X and x <= self._topRight.X and y >= self._bottomLeft.Y and y <= self._topRight.Y then
+		x -= self._bottomLeft.X
+		y -= self._bottomLeft.Y
+		for _, rect: BlockRect_t in ipairs(self._layout) do
+			if
+				rect.BottomLeft.X <= x
+				and rect.BottomLeft.X + rect.Size.X >= x
+				and rect.BottomLeft.Y <= y
+				and rect.BottomLeft.Y + rect.Size.Y >= y
+			then
+				return true
+			end
+		end
+	end
+	return false
+end
+
+--function BlockGroup:SetBlock(x: number, y: number, block_type: number): boolean end
+
 function BlockGroup.new(blocks: { Block.Block_t })
-	local group = {}
+	local group = { _blocks = table.create(#blocks, 0) }
+	table.move(blocks, 1, #blocks, 1, group._blocks)
 	setmetatable(group, BlockGroup)
 
-	group:BuildLayout2D(blocks)
-	group:BuildMeshRects()
+	-- TODO: performance can be squeezed out here by creating the largest parts possible so that less tris are drawn.
 
-	--group:BuildLayout(blocks)
-	--group:BuildMesh()
+	--group:BuildLayout2D(blocks)
+	--group:BuildMeshRects()
+
+	group:BuildLayout(blocks)
+	group:BuildMesh()
 
 	return group
 end

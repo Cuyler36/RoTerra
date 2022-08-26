@@ -50,6 +50,7 @@
 
     "Workspace": {
       "Game": {
+        "World": {},
         "$path": "assets/workspace"
       },
       "$properties": {
