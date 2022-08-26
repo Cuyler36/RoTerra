@@ -1,8 +1,8 @@
-local SharedFolder = game:GetService("ReplicatedStorage").Common
+--local SharedFolder = game:GetService("ReplicatedStorage").Common
 local Block = require(script.Parent.Parent.Block)
 
-local BlockData = require(SharedFolder.BlockData)
-local WorldGrid = require(SharedFolder.WorldGrid)
+--local BlockData = require(SharedFolder.BlockData)
+--local WorldGrid = require(SharedFolder.WorldGrid)
 
 local WorldGenerator = {}
 WorldGenerator.__index = WorldGenerator
