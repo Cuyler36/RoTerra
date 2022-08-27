@@ -1,7 +1,7 @@
 local CHUNK_SIZE: Vector2 = Vector2.new(16, 16)
 
 --local BlockGroup = require(script.Parent.BlockGroup)
-local Block = require(script.Parent.Block)
+--local Block = require(script.Parent.Block)
 
 local WorldGrid = require(game:GetService("ReplicatedStorage").Common.World.WorldGrid)
 local BlockData = require(game:GetService("ReplicatedStorage").Common.Data.BlockData)
@@ -46,6 +46,7 @@ function BlockChunk:ReplaceBlock(x: number, y: number, block_type: number): bool
 				block.Material = BlockData[block_type].Material
 				block.Color = BlockData[block_type].Color
 				block.Name = string.format("Block_%d", idx)
+				block:SetAttribute("Type", block_type)
 				block.Parent = self._folder
 				self._blockParts[idx] = block
 			else
@@ -110,20 +111,23 @@ function BlockChunk:RebuildMeshParts(): ()
 		local new_folder = Instance.new("Folder")
 		local blocks = table.create(#self._blocks, nil)
 		for i = 1, #self._blocks do
-			local x = (i - 1) % CHUNK_SIZE.X
-			local y = math.floor((i - 1) / CHUNK_SIZE.X)
-
 			-- TODO: calculate positions under an actor?
-			local block: BasePart = Instance.new("Part")
-			block.Anchored = true
-			block.Size = WorldGrid:GetBlockSize()
-			block.CFrame = CFrame.new(WorldGrid:To3DSpace(self._start + Vector2.new(x, y)))
-			block.Material = BlockData[self._blocks[i]].Material
-			block.Color = BlockData[self._blocks[i]].Color
-			block.Name = string.format("Block_%d", i - 1)
-			block.Parent = new_folder
 
-			blocks[i] = block
+			if self._blocks[i] ~= 0 then -- TODO: replace 0 with definition
+				local x = (i - 1) % CHUNK_SIZE.X
+				local y = math.floor((i - 1) / CHUNK_SIZE.X)
+
+				local block: BasePart = Instance.new("Part")
+				block.Anchored = true
+				block.Size = WorldGrid:GetBlockSize()
+				block.CFrame = CFrame.new(WorldGrid:To3DSpace(self._start + Vector2.new(x, y)))
+				block.Material = BlockData[self._blocks[i]].Material
+				block.Color = BlockData[self._blocks[i]].Color
+				block.Name = string.format("Block_%d", i - 1)
+				block:SetAttribute("Type", self._blocks[i])
+				block.Parent = new_folder
+				blocks[i] = block
+			end
 		end
 
 		if self._folder then
@@ -139,11 +143,12 @@ function BlockChunk:RebuildMeshParts(): ()
 	print(os.clock() - now)
 end
 
-function BlockChunk.new(x: number, y: number, blocks: { Block.Block_t })
+function BlockChunk.new(x: number, y: number, blocks: { number })
 	local this = {}
 	this._start = Vector2.new(x, y)
 	this._end = this._start + CHUNK_SIZE
-	this._blocks = blocks
+	this._blocks = table.create(#blocks, 0)
+	table.move(blocks, 1, #blocks, 1, this._blocks)
 	this._folder = Instance.new("Folder")
 	this._folder.Name = string.format("CHUNK_%d_%d", math.floor(x / CHUNK_SIZE.X), math.floor(y / CHUNK_SIZE.Y))
 
@@ -153,5 +158,7 @@ function BlockChunk.new(x: number, y: number, blocks: { Block.Block_t })
 	self:Render()
 	return self
 end
+
+export type BlockChunk_t = typeof(BlockChunk.new(0, 0, {}))
 
 return BlockChunk

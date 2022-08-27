@@ -16,8 +16,12 @@ BlockGroup.new({
 ]]
 
 -- Block group creation
-local BlockChunk = require(script.Parent.World.BlockChunk)
-local tab: { number } = table.create(BlockChunk:GetSize().X * BlockChunk:GetSize().Y, 0)
+--local BlockChunk = require(script.Parent.World.BlockChunk)
+local WorldGenerator = require(script.Parent.World.Generator.WorldGenerator)
+
+WorldGenerator:Generate()
+
+--[[local tab: { number } = table.create(BlockChunk:GetSize().X * BlockChunk:GetSize().Y, 0)
 
 for i = 1, #tab do
 	tab[i] = math.random(1, 2)
@@ -33,3 +37,4 @@ while true do
 		math.random(1, 2)
 	)
 end
+]]

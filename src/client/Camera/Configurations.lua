@@ -4,7 +4,7 @@ local Module = {}
 ---------------------  Side Scrolling Camera  ----------------------
 --------------------------------------------------------------------
 
-Module.SideCameraDepth = 500 --640 --64
+Module.SideCameraDepth = 800 --640 --64
 Module.SideHeightOffset = 10 --2
 Module.SideFieldOfView = 5 --20
 

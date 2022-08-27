@@ -125,3 +125,16 @@ local function HandleMouseClickInput(
 end
 
 Input:Bind("ClickBlock", HandleMouseClickInput, Enum.UserInputType.MouseButton1, Enum.KeyCode.ButtonR2)
+
+local function HandleToggleSelectModeInput(
+	action: string,
+	inputState: Enum.UserInputState,
+	_: InputObject
+): Enum.ContextActionResult
+	if action == "TogSelMode" and inputState == Enum.UserInputState.Begin then
+		BlockSelector:SetMode(bit32.bxor(BlockSelector:GetMode(), 1))
+	end
+	return Enum.ContextActionResult.Pass
+end
+
+Input:Bind("TogSelMode", HandleToggleSelectModeInput, Enum.KeyCode.LeftControl, Enum.KeyCode.RightControl)
